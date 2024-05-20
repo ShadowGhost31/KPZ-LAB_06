@@ -38,16 +38,13 @@ This project simulates an ATM machine with functionalities such as deposit, with
 ## Design Patterns
 1. **State Pattern**: Used to manage the different states of the ATM (NormalState, OutOfServiceState, NoCashState). [See implementation](ATMState.cs)
 2. **Command Pattern**: Used for executing transactions like deposit, withdraw, balance check, and transfer. [See implementation](ICommand.cs)
-3. **Memento Pattern**: Used to save and restore the state of the ATM or account. [See implementation](lab_06\ConsoleApp\Memento.cs)
+3. **Memento Pattern**: Used to save and restore the state of the ATM or account. [See implementation](lab_06/ConsoleApp/Memento.cs)
 
 ## Refactoring Techniques
 1. **Extract Method**: Methods have been extracted to improve readability and maintainability.
 2. **Rename Method**: Methods and variables have been renamed to be more descriptive.
 3. **Encapsulate Field**: Fields have been encapsulated to protect the internal state of objects.
 
-## File Structure
-- `src/`: Contains all the source code for the project.
-- `tests/`: Contains unit tests for the project.
 
 ## Contact
 For any queries or issues, please contact [Vt221_bae@student.ztu.edu.ua].
