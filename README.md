@@ -36,9 +36,9 @@ This project simulates an ATM machine with functionalities such as deposit, with
 5. **Dependency Inversion Principle (DIP)**: High-level modules depend on abstractions, not concrete implementations.
 
 ## Design Patterns
-1. **State Pattern**: Used to manage the different states of the ATM (NormalState, OutOfServiceState, NoCashState). [See implementation](src/ATMState.cs)
-2. **Command Pattern**: Used for executing transactions like deposit, withdraw, balance check, and transfer. [See implementation](src/ICommand.cs)
-3. **Memento Pattern**: Used to save and restore the state of the ATM or account. [See implementation](src/Memento.cs)
+1. **State Pattern**: Used to manage the different states of the ATM (NormalState, OutOfServiceState, NoCashState). [See implementation](ATMState.cs)
+2. **Command Pattern**: Used for executing transactions like deposit, withdraw, balance check, and transfer. [See implementation](ICommand.cs)
+3. **Memento Pattern**: Used to save and restore the state of the ATM or account. [See implementation](Memento.cs)
 
 ## Refactoring Techniques
 1. **Extract Method**: Methods have been extracted to improve readability and maintainability.
@@ -50,4 +50,4 @@ This project simulates an ATM machine with functionalities such as deposit, with
 - `tests/`: Contains unit tests for the project.
 
 ## Contact
-For any queries or issues, please contact [your-email@example.com].
+For any queries or issues, please contact [Vt221_bae@student.ztu.edu.ua].
