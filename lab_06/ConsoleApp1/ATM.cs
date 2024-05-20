@@ -1,7 +1,6 @@
-﻿// src/ATM.cs
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Security.Principal;
+using System.Linq;
 
 namespace ATMProject
 {
@@ -13,6 +12,7 @@ namespace ATMProject
 
         public ATM(decimal initialCash)
         {
+            if (initialCash < 0) throw new ArgumentOutOfRangeException(nameof(initialCash), "Initial cash must be non-negative.");
             _cashInMachine = initialCash;
             _currentState = new NormalState(this);
             _accounts = new List<Account>();
@@ -20,11 +20,12 @@ namespace ATMProject
 
         public void SetState(ATMState state)
         {
-            _currentState = state;
+            _currentState = state ?? throw new ArgumentNullException(nameof(state));
         }
 
         public void AddAccount(Account account)
         {
+            if (account == null) throw new ArgumentNullException(nameof(account));
             _accounts.Add(account);
         }
 
@@ -50,6 +51,7 @@ namespace ATMProject
 
         public void DispenseCash(decimal amount)
         {
+            if (amount <= 0) throw new ArgumentOutOfRangeException(nameof(amount), "Dispense amount must be positive.");
             if (amount <= _cashInMachine)
             {
                 _cashInMachine -= amount;
@@ -69,7 +71,7 @@ namespace ATMProject
 
         public Account GetAccount(Card card)
         {
-            return _accounts.Find(a => a.Card.Equals(card));
+            return _accounts.FirstOrDefault(a => a.Card.Equals(card));
         }
     }
 }

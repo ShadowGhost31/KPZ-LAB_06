@@ -114,6 +114,10 @@ namespace ATMProject
                 account.Deposit(amount);
                 Console.WriteLine($"Deposited {amount:C} to account {account.AccountNumber}");
             }
+            else
+            {
+                Console.WriteLine("Account not found.");
+            }
         }
 
         public override void Withdraw(Card card, decimal amount)
@@ -127,6 +131,10 @@ namespace ATMProject
             if (account != null)
             {
                 Console.WriteLine($"Account {account.AccountNumber} balance: {account.Balance:C}");
+            }
+            else
+            {
+                Console.WriteLine("Account not found.");
             }
         }
 
