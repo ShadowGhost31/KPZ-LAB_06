@@ -17,7 +17,7 @@ namespace ConsoleApp1
             if (account != null)
             {
                 account.Deposit(amount);
-                Console.WriteLine($"Deposited {amount:C} to account {account.AccountNumber}");
+                Console.WriteLine($"\tDeposited {amount:C} to account {account.AccountNumber}");
             }
         }
 
@@ -28,7 +28,7 @@ namespace ConsoleApp1
             {
                 account.Withdraw(amount);
                 _atm.DispenseCash(amount);
-                Console.WriteLine($"Withdrew {amount:C} from account {account.AccountNumber}");
+                Console.WriteLine($"\tWithdrew {amount:C} from account {account.AccountNumber}");
             }
             else
             {
@@ -41,7 +41,7 @@ namespace ConsoleApp1
             var account = _atm.GetAccount(card);
             if (account != null)
             {
-                Console.WriteLine($"Account {account.AccountNumber} balance: {account.Balance:C}");
+                Console.WriteLine($"\tAccount {account.AccountNumber} balance: {account.Balance:C}");
             }
         }
 
@@ -54,7 +54,7 @@ namespace ConsoleApp1
             {
                 accountFrom.Withdraw(amount);
                 accountTo.Deposit(amount);
-                Console.WriteLine($"Transferred {amount:C} from account {accountFrom.AccountNumber} to account {accountTo.AccountNumber}");
+                Console.WriteLine($"\tTransferred {amount:C} from account {accountFrom.AccountNumber} to account {accountTo.AccountNumber}");
             }
             else
             {

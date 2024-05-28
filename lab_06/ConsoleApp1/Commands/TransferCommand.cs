@@ -9,10 +9,10 @@ namespace ConsoleApp1
 {
     public class TransferCommand : ICommand
     {
-        private readonly ATM _atm;
-        private readonly Card _cardFrom;
-        private readonly Card _cardTo;
-        private readonly decimal _amount;
+        private ATM _atm;
+        private Card _cardFrom;
+        private Card _cardTo;
+        private decimal _amount;
 
         public TransferCommand(ATM atm, Card cardFrom, Card cardTo, decimal amount)
         {
@@ -24,7 +24,30 @@ namespace ConsoleApp1
 
         public void Execute()
         {
-            _atm.Transfer(_cardFrom, _cardTo, _amount);
+            var accountFrom = _atm.GetAccount(_cardFrom);
+            var accountTo = _atm.GetAccount(_cardTo);
+
+            if (accountFrom != null && accountTo != null && accountFrom.Balance >= _amount)
+            {
+                string cardFromPrefix = _cardFrom.CardNumber.Substring(0, 4);
+                string cardToPrefix = _cardTo.CardNumber.Substring(0, 4);
+
+                if (cardFromPrefix != cardToPrefix)
+                {
+                    decimal commission = _amount * 0.05m;
+                    _amount -= commission;
+                    accountFrom.Withdraw(commission);
+                }
+
+                accountFrom.Withdraw(_amount);
+                accountTo.Deposit(_amount);
+
+                Console.WriteLine($"\tTransferred {_amount:C} from account {_cardFrom.CardNumber} to account {_cardTo.CardNumber}");
+            }
+            else
+            {
+                Console.WriteLine("Transfer failed. Check the accounts and balance.");
+            }
         }
     }
 }

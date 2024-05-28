@@ -33,7 +33,8 @@ namespace ATMProject
                     Console.WriteLine("2. Withdraw");
                     Console.WriteLine("3. Check Balance");
                     Console.WriteLine("4. Transfer");
-                    Console.WriteLine("5. Exit");
+                    Console.WriteLine("5. Account info");
+                    Console.WriteLine("6. Exit");
 
                     // Read user's choice
                     Console.Write("\nOption: ");
@@ -92,6 +93,14 @@ namespace ATMProject
                                 balanceCheck.Execute();
                                 Console.WriteLine("Balance check executed.");
                             }
+                            Console.WriteLine("Check Card №2 Balance:");
+                            Account balanceCheckAccount2 = atm.GetAccount(card2);
+                            if (balanceCheckAccount2 != null)
+                            {
+                                ICommand balanceCheck2 = new BalanceCheckCommand(atm, balanceCheckAccount2.Card);
+                                balanceCheck2.Execute();
+                                Console.WriteLine("Balance check executed.");
+                            }
                             else
                             {
                                 Console.WriteLine("Account not found.");
@@ -102,8 +111,8 @@ namespace ATMProject
                             Account transferFromAccount = atm.GetAccount(card1);
                             if (transferFromAccount != null)
                             {
-                                Console.Write("Enter account number to transfer to: ");
-                                string transferToAccountNumber = Console.ReadLine();
+                                // Console.Write("Enter account number to transfer to: ");
+                                // string transferToAccountNumber = Console.ReadLine();
                                 Account transferToAccount = atm.GetAccount(card2);
                                 if (transferToAccount != null)
                                 {
@@ -124,13 +133,35 @@ namespace ATMProject
                             }
                             break;
                         case 5:
+                            Console.WriteLine("Account Information:");
+                            Console.WriteLine("1. Account 1");
+                            Console.WriteLine("2. Account 2");
+                            Console.Write("\nSelect account: ");
+                            int accountChoice = int.Parse(Console.ReadLine());
+
+                            switch (accountChoice)
+                            {
+                                case 1:
+                                    Console.WriteLine("Account 1 Information:");
+                                    account1.PrintAccountInfo();
+                                    break;
+                                case 2:
+                                    Console.WriteLine("Account 2 Information:");
+                                    account2.PrintAccountInfo();
+                                    break;
+                                default:
+                                    Console.WriteLine("Invalid account choice.");
+                                    break;
+                            }
+                            break;
+                        case 6:
                             Console.WriteLine("Exiting...");
                             break;
                         default:
                             Console.WriteLine("Invalid choice.");
                             break;
                     }
-                } while (choice != 5);
+                } while (choice != 6);
 
                 Console.WriteLine("ATM operations completed.");
             }
