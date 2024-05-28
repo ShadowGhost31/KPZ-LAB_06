@@ -19,7 +19,7 @@ namespace ATMProject
         public void Deposit(decimal amount)
         {
             Balance += amount;
-            Console.WriteLine($"Deposited {amount}. New balance is {Balance}");
+            Console.WriteLine($"\tDeposited {amount}. New balance is {Balance}");
         }
 
         public void Withdraw(decimal amount)
@@ -27,11 +27,11 @@ namespace ATMProject
             if (Balance >= amount)
             {
                 Balance -= amount;
-                Console.WriteLine($"Withdrew {amount}. New balance is {Balance}");
+                Console.WriteLine($"\tWithdrew {amount}. New balance is {Balance}");
             }
             else
             {
-                Console.WriteLine($"Insufficient funds to withdraw {amount}. Current balance is {Balance}");
+                Console.WriteLine($"\tInsufficient funds to withdraw {amount}. Current balance is {Balance}");
             }
         }
 
@@ -41,17 +41,24 @@ namespace ATMProject
             {
                 Balance -= amount;
                 toAccount.Deposit(amount);
-                Console.WriteLine($"Transferred {amount} to {toAccount.AccountNumber}. New balance is {Balance}");
+                Console.WriteLine($"\tTransferred {amount} to {toAccount.AccountNumber}. New balance is {Balance}");
             }
             else
             {
-                Console.WriteLine($"Insufficient funds to transfer {amount}. Current balance is {Balance}");
+                Console.WriteLine($"\tInsufficient funds to transfer {amount}. Current balance is {Balance}");
             }
         }
 
         public Memento SaveState()
         {
             return new Memento(AccountNumber, Balance);
+        }
+
+        public void PrintAccountInfo()
+        {
+            Console.WriteLine($"Account Name: {AccountNumber}");
+            Console.WriteLine($"Card Number: {Card.CardNumber}");
+            Console.WriteLine($"Balance: {Balance:C}");
         }
 
         public void RestoreState(Memento memento)

@@ -44,17 +44,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ATM.cs" />
-    <Compile Include="ATMState.cs" />
+    <Compile Include="States\ATMState.cs" />
     <Compile Include="Account.cs" />
+    <Compile Include="Commands\BalanceCheckCommand.cs" />
     <Compile Include="Card.cs" />
-    <Compile Include="ICommand.cs" />
+    <Compile Include="Commands\DepositCommand.cs" />
+    <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Memento.cs" />
+    <Compile Include="States\NoCashState.cs" />
+    <Compile Include="States\NormalState.cs" />
+    <Compile Include="States\OutOfServiceState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Commands\TransferCommand.cs" />
+    <Compile Include="Commands\WithdrawCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="README.md" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
