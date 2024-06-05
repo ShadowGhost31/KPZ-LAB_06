@@ -1,4 +1,5 @@
-﻿using ConsoleApp1;
+﻿// src/Program.cs
+using ConsoleApp1;
 using System;
 
 namespace ATMProject
@@ -9,12 +10,13 @@ namespace ATMProject
         {
             try
             {
-                Console.WriteLine("Starting ATM operations...");
+                Console.OutputEncoding = System.Text.Encoding.UTF8;
+                Console.WriteLine("Початок роботи банкомата...");
 
-                // Create ATM with initial cash
+                // Створення банкомата з початковою кількістю готівки
                 ATM atm = new ATM(10000);
 
-                // Create accounts and cards
+                // Створення рахунків і карток
                 Card card1 = new Card("1234-5678-9012-3456");
                 Account account1 = new Account("ACC1", 5000, card1);
                 atm.AddAccount(account1);
@@ -27,150 +29,111 @@ namespace ATMProject
 
                 do
                 {
-                    // Display menu for user to choose operation
-                    Console.WriteLine("\nChoose an operation:");
-                    Console.WriteLine("1. Deposit");
-                    Console.WriteLine("2. Withdraw");
-                    Console.WriteLine("3. Check Balance");
-                    Console.WriteLine("4. Transfer");
-                    Console.WriteLine("5. Account info");
-                    Console.WriteLine("6. Exit");
+                    // Відображення меню для вибору операції
+                    Console.WriteLine("\nВиберіть операцію:");
+                    Console.WriteLine("1. Депозит");
+                    Console.WriteLine("2. Зняття коштів");
+                    Console.WriteLine("3. Перевірити баланс");
+                    Console.WriteLine("4. Переказ");
+                    Console.WriteLine("5. Інформація про рахунок");
+                    Console.WriteLine("6. Вихід");
 
-                    // Read user's choice
-                    Console.Write("\nOption: ");
+                    // Зчитування вибору користувача
+                    Console.Write("\nОпція: ");
                     choice = int.Parse(Console.ReadLine());
 
                     switch (choice)
                     {
                         case 1:
-                            Console.WriteLine("Deposit Card №1:");
+                            Console.WriteLine("Депозит на картку №1:");
                             Account depositAccount = atm.GetAccount(card1);
                             if (depositAccount != null)
                             {
-                                Console.Write("Enter amount to deposit: ");
+                                Console.Write("Введіть суму для депозиту: ");
                                 decimal depositAmount = decimal.Parse(Console.ReadLine());
                                 ICommand deposit = new DepositCommand(atm, depositAccount.Card, depositAmount);
                                 deposit.Execute();
-                                Console.WriteLine("Deposit executed.");
+                                Console.WriteLine("Депозит виконано.");
                             }
                             else
                             {
-                                Console.WriteLine("Account not found.");
+                                Console.WriteLine("Рахунок не знайдено.");
                             }
                             break;
                         case 2:
-                            Console.WriteLine("Withdraw from Card №2:");
+                            Console.WriteLine("Зняття коштів з картки №2:");
                             Account withdrawAccount = atm.GetAccount(card2);
                             if (withdrawAccount != null)
                             {
-                                Console.Write("Enter amount to withdraw\n" +
-                                    "\t(The amount must be a multiple of 200): ");
+                                Console.Write("Введіть суму для зняття\n" +
+                                    "\t(Сума повинна бути кратною 200): ");
                                 decimal withdrawAmount = decimal.Parse(Console.ReadLine());
 
-                                // The amount must be a multiple of 200
+                                // Сума повинна бути кратною 200
                                 if (withdrawAmount % 200 == 0)
                                 {
                                     ICommand withdraw = new WithdrawCommand(atm, withdrawAccount.Card, withdrawAmount);
                                     withdraw.Execute();
-                                    Console.WriteLine("Withdraw executed.");
+                                    Console.WriteLine("Зняття коштів виконано.");
                                 }
                                 else
                                 {
-                                    Console.WriteLine("The amount must be a multiple of 200!");
+                                    Console.WriteLine("Сума повинна бути кратною 200.");
                                 }
                             }
                             else
                             {
-                                Console.WriteLine("Account not found.");
+                                Console.WriteLine("Рахунок не знайдено.");
                             }
                             break;
                         case 3:
-                            Console.WriteLine("Check Card №1 Balance:");
-                            Account balanceCheckAccount = atm.GetAccount(card1);
-                            if (balanceCheckAccount != null)
+                            Console.WriteLine("Перевірка балансу картки №1:");
+                            Account balanceAccount = atm.GetAccount(card1);
+                            if (balanceAccount != null)
                             {
-                                ICommand balanceCheck = new BalanceCheckCommand(atm, balanceCheckAccount.Card);
-                                balanceCheck.Execute();
-                                Console.WriteLine("Balance check executed.");
-                            }
-                            Console.WriteLine("Check Card №2 Balance:");
-                            Account balanceCheckAccount2 = atm.GetAccount(card2);
-                            if (balanceCheckAccount2 != null)
-                            {
-                                ICommand balanceCheck2 = new BalanceCheckCommand(atm, balanceCheckAccount2.Card);
-                                balanceCheck2.Execute();
-                                Console.WriteLine("Balance check executed.");
+                                ICommand checkBalance = new BalanceCheckCommand(atm, balanceAccount.Card);
+                                checkBalance.Execute();
                             }
                             else
                             {
-                                Console.WriteLine("Account not found.");
+                                Console.WriteLine("Рахунок не знайдено.");
                             }
                             break;
                         case 4:
-                            Console.WriteLine("Transfer from Card 1 to Card 2:");
-                            Account transferFromAccount = atm.GetAccount(card1);
-                            if (transferFromAccount != null)
+                            Console.WriteLine("Переказ з картки №1 на картку №2:");
+                            Account fromAccount = atm.GetAccount(card1);
+                            Account toAccount = atm.GetAccount(card2);
+                            if (fromAccount != null && toAccount != null)
                             {
-                                // Console.Write("Enter account number to transfer to: ");
-                                // string transferToAccountNumber = Console.ReadLine();
-                                Account transferToAccount = atm.GetAccount(card2);
-                                if (transferToAccount != null)
-                                {
-                                    Console.Write("Enter amount to transfer: ");
-                                    decimal transferAmount = decimal.Parse(Console.ReadLine());
-                                    ICommand transfer = new TransferCommand(atm, transferFromAccount.Card, transferToAccount.Card, transferAmount);
-                                    transfer.Execute();
-                                    Console.WriteLine("Transfer executed.");
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Destination account not found.");
-                                }
+                                Console.Write("Введіть суму для переказу: ");
+                                decimal transferAmount = decimal.Parse(Console.ReadLine());
+                                ICommand transfer = new TransferCommand(atm, fromAccount.Card, toAccount.Card, transferAmount);
+                                transfer.Execute();
+                                Console.WriteLine("Переказ виконано.");
                             }
                             else
                             {
-                                Console.WriteLine("Source account not found.");
+                                Console.WriteLine("Рахунок не знайдено.");
                             }
                             break;
                         case 5:
-                            Console.WriteLine("Account Information:");
-                            Console.WriteLine("1. Account 1");
-                            Console.WriteLine("2. Account 2");
-                            Console.Write("\nSelect account: ");
-                            int accountChoice = int.Parse(Console.ReadLine());
-
-                            switch (accountChoice)
-                            {
-                                case 1:
-                                    Console.WriteLine("Account 1 Information:");
-                                    account1.PrintAccountInfo();
-                                    break;
-                                case 2:
-                                    Console.WriteLine("Account 2 Information:");
-                                    account2.PrintAccountInfo();
-                                    break;
-                                default:
-                                    Console.WriteLine("Invalid account choice.");
-                                    break;
-                            }
+                            Console.WriteLine("Інформація про рахунок №1:");
+                            account1.PrintAccountInfo();
                             break;
                         case 6:
-                            Console.WriteLine("Exiting...");
+                            Console.WriteLine("Вихід з програми.");
                             break;
                         default:
-                            Console.WriteLine("Invalid choice.");
+                            Console.WriteLine("Невідома опція.");
                             break;
                     }
-                } while (choice != 6);
-
-                Console.WriteLine("ATM operations completed.");
+                }
+                while (choice != 6);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                Console.WriteLine($"Виникла помилка: {ex.Message}");
             }
-
-            Console.ReadLine();
         }
     }
 }

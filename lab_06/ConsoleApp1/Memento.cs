@@ -1,4 +1,6 @@
 ﻿// src/Memento.cs
+using System;
+
 namespace ATMProject
 {
     public class Memento
@@ -8,7 +10,7 @@ namespace ATMProject
 
         public Memento(string accountNumber, decimal balance)
         {
-            AccountNumber = accountNumber;
+            AccountNumber = accountNumber ?? throw new ArgumentNullException(nameof(accountNumber));
             Balance = balance;
         }
     }

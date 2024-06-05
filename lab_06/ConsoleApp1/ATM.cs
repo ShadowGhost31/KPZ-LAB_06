@@ -1,4 +1,5 @@
-﻿using ConsoleApp1;
+﻿// src/ATM.cs
+using ConsoleApp1;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,9 @@ namespace ATMProject
 
         public ATM(decimal initialCash)
         {
-            if (initialCash < 0) throw new ArgumentOutOfRangeException(nameof(initialCash), "Initial cash must be non-negative.");
+            if (initialCash < 0)
+                throw new ArgumentOutOfRangeException(nameof(initialCash), "Початковий запас готівки повинен бути невід'ємним.");
+
             _cashInMachine = initialCash;
             _currentState = new NormalState(this);
             _accounts = new List<Account>();
@@ -26,7 +29,9 @@ namespace ATMProject
 
         public void AddAccount(Account account)
         {
-            if (account == null) throw new ArgumentNullException(nameof(account));
+            if (account == null)
+                throw new ArgumentNullException(nameof(account));
+
             _accounts.Add(account);
         }
 
@@ -52,15 +57,17 @@ namespace ATMProject
 
         public void DispenseCash(decimal amount)
         {
-            if (amount <= 0) throw new ArgumentOutOfRangeException(nameof(amount), "Dispense amount must be positive.");
+            if (amount <= 0)
+                throw new ArgumentOutOfRangeException(nameof(amount), "Сума зняття повинна бути позитивною.");
+
             if (amount <= _cashInMachine)
             {
                 _cashInMachine -= amount;
-                Console.WriteLine($"Dispensed {amount:C}");
+                Console.WriteLine($"Видано {amount:C}");
             }
             else
             {
-                Console.WriteLine("Insufficient funds in ATM.");
+                Console.WriteLine("Недостатньо коштів в банкоматі.");
                 SetState(new NoCashState(this));
             }
         }

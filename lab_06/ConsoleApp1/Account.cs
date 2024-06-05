@@ -11,41 +11,59 @@ namespace ATMProject
 
         public Account(string accountNumber, decimal initialBalance, Card card)
         {
+            if (string.IsNullOrWhiteSpace(accountNumber))
+                throw new ArgumentNullException(nameof(accountNumber), "Номер рахунку не може бути порожнім.");
+
+            if (initialBalance < 0)
+                throw new ArgumentOutOfRangeException(nameof(initialBalance), "Початковий баланс повинен бути невід'ємним.");
+
             AccountNumber = accountNumber;
             Balance = initialBalance;
-            Card = card;
+            Card = card ?? throw new ArgumentNullException(nameof(card), "Картка не може бути порожньою.");
         }
 
         public void Deposit(decimal amount)
         {
+            if (amount <= 0)
+                throw new ArgumentOutOfRangeException(nameof(amount), "Сума депозиту повинна бути позитивною.");
+
             Balance += amount;
-            Console.WriteLine($"\tDeposited {amount}. New balance is {Balance}");
+            Console.WriteLine($"\tДепозит {amount}. Новий баланс: {Balance}");
         }
 
         public void Withdraw(decimal amount)
         {
+            if (amount <= 0)
+                throw new ArgumentOutOfRangeException(nameof(amount), "Сума зняття повинна бути позитивною.");
+
             if (Balance >= amount)
             {
                 Balance -= amount;
-                Console.WriteLine($"\tWithdrew {amount}. New balance is {Balance}");
+                Console.WriteLine($"\tЗнято {amount}. Новий баланс: {Balance}");
             }
             else
             {
-                Console.WriteLine($"\tInsufficient funds to withdraw {amount}. Current balance is {Balance}");
+                Console.WriteLine($"\tНедостатньо коштів для зняття {amount}. Поточний баланс: {Balance}");
             }
         }
 
         public void Transfer(Account toAccount, decimal amount)
         {
+            if (toAccount == null)
+                throw new ArgumentNullException(nameof(toAccount), "Цільовий рахунок не може бути порожнім.");
+
+            if (amount <= 0)
+                throw new ArgumentOutOfRangeException(nameof(amount), "Сума переказу повинна бути позитивною.");
+
             if (Balance >= amount)
             {
                 Balance -= amount;
                 toAccount.Deposit(amount);
-                Console.WriteLine($"\tTransferred {amount} to {toAccount.AccountNumber}. New balance is {Balance}");
+                Console.WriteLine($"\tПереказано {amount} на рахунок {toAccount.AccountNumber}. Новий баланс: {Balance}");
             }
             else
             {
-                Console.WriteLine($"\tInsufficient funds to transfer {amount}. Current balance is {Balance}");
+                Console.WriteLine($"\tНедостатньо коштів для переказу {amount}. Поточний баланс: {Balance}");
             }
         }
 
@@ -56,13 +74,16 @@ namespace ATMProject
 
         public void PrintAccountInfo()
         {
-            Console.WriteLine($"Account Name: {AccountNumber}");
-            Console.WriteLine($"Card Number: {Card.CardNumber}");
-            Console.WriteLine($"Balance: {Balance:C}");
+            Console.WriteLine($"Номер рахунку: {AccountNumber}");
+            Console.WriteLine($"Номер картки: {Card.CardNumber}");
+            Console.WriteLine($"Баланс: {Balance:C}");
         }
 
         public void RestoreState(Memento memento)
         {
+            if (memento == null)
+                throw new ArgumentNullException(nameof(memento), "Memento не може бути порожнім.");
+
             Balance = memento.Balance;
         }
 
